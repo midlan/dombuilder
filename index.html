@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <title>dombuilder</title>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const elsByTagName = {};
+            const elsById = {};
+
+            var elByTagName = function (tagName) {
+
+                const domEl = document.getElementsByTagName(tagName).item(0);
+
+                if (domEl) {
+                    return domEl;
+                }
+
+                if (!elsByTagName[tagName]) {
+                    elsByTagName[tagName] = document.createElement(tagName);
+                }
+
+                return elsByTagName[tagName];
+            }
+
+            var elById = function (id, tagName) {
+
+                const domEl = document.getElementById(id);
+
+                if (domEl) {
+                    return domEl;
+                }
+
+                if (!elsById[id]) {
+                    elsById[id] = document.createElement(tagName);
+                    elsById[id].id = id;
+                }
+
+                return elsById[id];
+            }
+
+            const params = new URLSearchParams(window.location.hash.substring(1));
+
+            for (const [key, value] of params) {
+
+                const matches = key.match(/^([^\[\]]+)(?:\[([^\[\]]+)\])?\[([^\[\]]*)\]$/);
+
+                if (matches) {
+                    const tagName = matches[1];
+                    const id = matches[2];
+                    const attr = matches[3];
+
+                    const el = id ? elById(id, tagName) : elByTagName(tagName);
+
+                    if (attr) {
+                        el[attr] = value;
+                    }
+                    else {
+                        el.appendChild(value.startsWith('#') ? elById(value.substring(1)) : elByTagName(value));
+                    }
+                }
+                else {
+                    console.error('Unrecognized dombuilder parameter', key);
+                }
+            }
+
+        });
+
+    </script>
+</html>
