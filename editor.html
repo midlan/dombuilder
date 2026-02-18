@@ -14,6 +14,7 @@
         .url-bar { display: flex; padding: 8px; background: #eee; border-top: 1px solid #ccc; }
         .url-bar label { padding: 6px 8px; white-space: nowrap; }
         .url-bar input { flex: 1; font-family: monospace; font-size: 13px; padding: 4px 8px; }
+        .url-bar button { padding: 4px 12px; margin-left: 4px; cursor: pointer; font-size: 13px; }
     </style>
 </head>
 <body>
@@ -28,6 +29,7 @@
     <div class="url-bar">
         <label>URL:</label>
         <input id="url" readonly>
+        <button id="copy">Copy</button>
     </div>
 
     <script src="dombuilder.js"></script>
@@ -42,7 +44,7 @@
             // Convert HTML to instructions, compress, build URL
             const instructions = htmlToInstructions(html);
             const encoded = await encodeInstructions(instructions);
-            const baseUrl = window.location.href.replace(/editor\.html.*$/, 'index.html');
+            const baseUrl = window.location.href.replace(/editor\.html.*$/, '');
             urlEl.value = baseUrl + '#' + encoded;
 
             // Render preview via the instruction executor
@@ -51,6 +53,14 @@
             doc.write('<!DOCTYPE html><html><head></head><body></body></html>');
             doc.close();
             executeInstructions(instructions, doc.body);
+        });
+
+        document.getElementById('copy').addEventListener('click', function () {
+            navigator.clipboard.writeText(urlEl.value).then(function () {
+                const btn = document.getElementById('copy');
+                btn.textContent = 'Copied!';
+                setTimeout(function () { btn.textContent = 'Copy'; }, 1500);
+            });
         });
     </script>
 </body>
