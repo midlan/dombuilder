@@ -48,8 +48,8 @@ jobs:
           sed -i "s|const DEPLOY_TAG = null;|const DEPLOY_TAG = '${TAG}';|" "_site/$TAG/editor.html"
 
           # Update "latest" symlink for version tags (v1, v2, …),
-          # or if no latest exists yet (first deploy may be a test tag)
-          if [[ "$TAG" =~ ^v[0-9]+$ ]] || [ ! -e _site/latest ]; then
+          # or if latest doesn't point to a real version yet (only test tags so far)
+          if [[ "$TAG" =~ ^v[0-9]+$ ]] || ! readlink _site/latest 2>/dev/null | grep -qE '^v[0-9]+$'; then
             rm -rf _site/latest
             ln -s "$TAG" _site/latest
           fi
