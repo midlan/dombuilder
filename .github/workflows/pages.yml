@@ -33,14 +33,16 @@ jobs:
             cd ..
           fi
 
+          # Disable Jekyll so symlinks are served as-is
+          touch _site/.nojekyll
+
           # Copy the tagged files into a versioned directory
           mkdir -p "_site/$TAG"
           cp index.html dombuilder.js editor.html "_site/$TAG/"
 
-          # Update "latest" to point at the current tag
+          # Update "latest" symlink to point at the current tag
           rm -rf _site/latest
-          mkdir -p _site/latest
-          cp index.html dombuilder.js editor.html _site/latest/
+          ln -s "$TAG" _site/latest
 
           # Generate root index listing every deployed version
           cd _site
