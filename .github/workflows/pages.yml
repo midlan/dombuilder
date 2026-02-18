@@ -57,8 +57,9 @@ jobs:
           # Generate root index listing every deployed version
           cd _site
           {
-            echo '<!DOCTYPE html><html><head><title>DomBuilder</title></head><body>'
-            echo '<h1>DomBuilder</h1><ul>'
+            echo '<!DOCTYPE html><html><head><title>dombuilder</title></head><body>'
+            echo '<h1>dombuilder</h1>'
+            echo '<h2>Releases</h2><ul>'
             echo "  <li><a href=\"latest/editor.html\">latest</a></li>"
             for d in */; do
               [ "${d%/}" = "latest" ] && continue
