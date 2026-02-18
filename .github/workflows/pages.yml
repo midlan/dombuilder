@@ -40,9 +40,11 @@ jobs:
           mkdir -p "_site/$TAG"
           cp index.html dombuilder.js editor.html "_site/$TAG/"
 
-          # Update "latest" symlink to point at the current tag
-          rm -rf _site/latest
-          ln -s "$TAG" _site/latest
+          # Update "latest" symlink only for version tags (v1, v2, …)
+          if [[ "$TAG" =~ ^v[0-9] ]]; then
+            rm -rf _site/latest
+            ln -s "$TAG" _site/latest
+          fi
 
           # Generate root index listing every deployed version
           cd _site
