@@ -5,7 +5,7 @@ Don't wanna setup hosting for every microsite you need? Now you can build a micr
 ## Example
 
 ```
-https://midlan.github.io/dombuilder/test1/#VZCxbsMw
+https://midlan.github.io/dombuilder/latest/#VZCxbsMw
 ```
 
 ## Editor
@@ -25,4 +25,4 @@ The hash fragment is never sent to any server — everything happens client-side
 
 ### Versioned deployments
 
-Each git tag is automatically deployed to GitHub Pages under its own directory (e.g. `/test1/`, `/v2/`), so older links keep working forever.
+Each git tag is automatically deployed to GitHub Pages under its own directory (e.g. `/test1/`, `/v2/`), so older links keep working forever. A `/latest/` directory always mirrors the most recently deployed tag.
