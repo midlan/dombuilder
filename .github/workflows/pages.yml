@@ -40,6 +40,10 @@ jobs:
           mkdir -p "_site/$TAG"
           cp index.html dombuilder.js editor.html "_site/$TAG/"
 
+          # Bake the tag into the page titles
+          sed -i "s|<title>dombuilder</title>|<title>dombuilder ($TAG)</title>|" "_site/$TAG/index.html"
+          sed -i "s|<title>dombuilder editor</title>|<title>dombuilder editor ($TAG)</title>|" "_site/$TAG/editor.html"
+
           # Update "latest" symlink only for version tags (v1, v2, …)
           if [[ "$TAG" =~ ^v[0-9] ]]; then
             rm -rf _site/latest
@@ -51,7 +55,7 @@ jobs:
           {
             echo '<!DOCTYPE html><html><head><title>DomBuilder</title></head><body>'
             echo '<h1>DomBuilder</h1><ul>'
-            echo "  <li><a href=\"latest/editor.html\">latest ($TAG)</a></li>"
+            echo "  <li><a href=\"latest/editor.html\">latest</a></li>"
             for d in */; do
               [ "${d%/}" = "latest" ] && continue
               echo "  <li><a href=\"${d}editor.html\">${d%/}</a></li>"
