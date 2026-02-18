@@ -65,7 +65,7 @@ function htmlToInstructions(html) {
     function walk(node) {
         for (const child of node.childNodes) {
             if (child.nodeType === Node.ELEMENT_NODE) {
-                lines.push('E ' + child.tagName.toLowerCase());
+                lines.push('E ' + (child.namespaceURI === SVG_NS ? child.tagName : child.tagName.toLowerCase()));
                 for (const attr of child.attributes) {
                     const attrVal = attr.value.replace(/\\/g, '\\\\').replace(/\n/g, '\\n');
                     lines.push('A ' + attr.name + ' ' + attrVal);
