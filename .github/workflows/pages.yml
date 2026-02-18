@@ -44,6 +44,9 @@ jobs:
           sed -i "s|<title>dombuilder</title>|<title>dombuilder ($TAG)</title>|" "_site/$TAG/index.html"
           sed -i "s|<title>dombuilder editor</title>|<title>dombuilder editor ($TAG)</title>|" "_site/$TAG/editor.html"
 
+          # Bake the tag into generated DOM URLs so /latest/ resolves to /v3/ etc.
+          sed -i "s|const DEPLOY_TAG = null;|const DEPLOY_TAG = '${TAG}';|" "_site/$TAG/editor.html"
+
           # Update "latest" symlink for version tags (v1, v2, …),
           # or if no latest exists yet (first deploy may be a test tag)
           if [[ "$TAG" =~ ^v[0-9]+$ ]] || [ ! -e _site/latest ]; then

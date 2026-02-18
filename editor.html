@@ -34,6 +34,7 @@
 
     <script src="dombuilder.js"></script>
     <script>
+        const DEPLOY_TAG = null; // replaced at deploy time
         const sourceEl = document.getElementById('source');
         const previewEl = document.getElementById('preview');
         const urlEl = document.getElementById('url');
@@ -44,7 +45,8 @@
             // Convert HTML to instructions, compress, build URL
             const instructions = htmlToInstructions(html);
             const encoded = await encodeInstructions(instructions);
-            const baseUrl = window.location.href.replace(/editor\.html.*$/, '');
+            var baseUrl = window.location.href.replace(/editor\.html.*$/, '');
+            if (DEPLOY_TAG) baseUrl = baseUrl.replace(/\/[^/]*\/$/, '/' + DEPLOY_TAG + '/');
             urlEl.value = baseUrl + '#' + encoded;
 
             // Render preview via the instruction executor
