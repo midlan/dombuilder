@@ -10,6 +10,8 @@
 
 // === Instruction executor ===
 
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
 function executeInstructions(text, target) {
     const stack = [target];
     const lines = text.split('\n');
@@ -30,7 +32,11 @@ function executeInstructions(text, target) {
 
         switch (op) {
             case 'E': {
-                const el = document.createElement(rest);
+                const parent = stack[stack.length - 1];
+                const inSVG = parent.namespaceURI === SVG_NS;
+                const el = (inSVG || rest === 'svg')
+                    ? document.createElementNS(SVG_NS, rest)
+                    : document.createElement(rest);
                 stack.push(el);
                 break;
             }
