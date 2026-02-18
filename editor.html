@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>dombuilder editor</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: monospace; height: 100vh; display: flex; flex-direction: column; }
+        .toolbar { padding: 8px; background: #333; display: flex; align-items: center; gap: 12px; }
+        .toolbar a { color: #fff; text-decoration: none; font-size: 20px; font-weight: bold; }
+        .toolbar a:hover { text-decoration: underline; }
+        .toolbar button { padding: 6px 20px; font-size: 14px; cursor: pointer; }
+        .panels { display: flex; flex: 1; min-height: 0; }
+        .panels > * { flex: 1; border: 1px solid #ccc; }
+        #source { resize: none; padding: 8px; font-family: monospace; font-size: 14px; }
+        #preview { border: none; }
+        .url-bar { display: flex; padding: 8px; background: #eee; border-top: 1px solid #ccc; }
+        .url-bar label { padding: 6px 8px; white-space: nowrap; }
+        .url-bar input { flex: 1; font-family: monospace; font-size: 13px; padding: 4px 8px; }
+        .url-bar button { padding: 4px 12px; margin-left: 4px; cursor: pointer; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <a href="https://github.com/midlan/dombuilder">dombuilder</a>
+        <button id="run">Run &#9654;</button>
+    </div>
+    <div class="panels">
+        <textarea id="source" spellcheck="false"><h1>Hello World</h1>
+<p style="color:gray">Edit this HTML and click <strong>Run</strong>.</p></textarea>
+        <iframe id="preview"></iframe>
+    </div>
+    <div class="url-bar">
+        <label>URL:</label>
+        <input id="url" readonly>
+        <button id="copy">Copy</button>
+    </div>
+
+    <script src="dombuilder.js"></script>
+    <script>
+        const DEPLOY_TAG = null; // replaced at deploy time
+        const sourceEl = document.getElementById('source');
+        const previewEl = document.getElementById('preview');
+        const urlEl = document.getElementById('url');
+
+        document.getElementById('run').addEventListener('click', async function () {
+            const html = sourceEl.value;
+
+            // Convert HTML to instructions, compress, build URL
+            const instructions = htmlToInstructions(html);
+            const encoded = await encodeInstructions(instructions);
+            var baseUrl = window.location.href.replace(/editor\.html.*$/, '');
+            if (DEPLOY_TAG) baseUrl = baseUrl.replace(/\/[^/]*\/$/, '/' + DEPLOY_TAG + '/');
+            urlEl.value = baseUrl + '#' + encoded;
+
+            // Render preview via the instruction executor
+            const doc = previewEl.contentDocument;
+            doc.open();
+            doc.write('<!DOCTYPE html><html><head></head><body></body></html>');
+            doc.close();
+            executeInstructions(instructions, doc.body);
+        });
+
+        document.getElementById('copy').addEventListener('click', function () {
+            navigator.clipboard.writeText(urlEl.value).then(function () {
+                const btn = document.getElementById('copy');
+                btn.textContent = 'Copied!';
+                setTimeout(function () { btn.textContent = 'Copy'; }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>
