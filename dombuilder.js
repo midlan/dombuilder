@@ -3,7 +3,7 @@
  *
  * Instruction format (one per line):
  *   E tag        — create element, append to current parent, push onto stack
- *   A name value — set attribute on current element (value = rest of line after 2nd space)
+ *   A name value — set attribute on current element (\n = newline, \\ = backslash in value)
  *   T text       — append text node to current element (\n = newline, \\ = backslash)
  *   ^            — pop stack (current element becomes parent again)
  */
@@ -35,7 +35,7 @@ function executeInstructions(text, target) {
             case 'A': {
                 const i = rest.indexOf(' ');
                 const name = rest.substring(0, i);
-                const value = rest.substring(i + 1);
+                const value = rest.substring(i + 1).replace(/\\(.)/g, (_, c) => c === 'n' ? '\n' : c);
                 stack[stack.length - 1].setAttribute(name, value);
                 break;
             }
@@ -59,13 +59,14 @@ function htmlToInstructions(html) {
             if (child.nodeType === Node.ELEMENT_NODE) {
                 lines.push('E ' + child.tagName.toLowerCase());
                 for (const attr of child.attributes) {
-                    lines.push('A ' + attr.name + ' ' + attr.value);
+                    const attrVal = attr.value.replace(/\\/g, '\\\\').replace(/\n/g, '\\n');
+                    lines.push('A ' + attr.name + ' ' + attrVal);
                 }
                 walk(child);
                 lines.push('^');
             } else if (child.nodeType === Node.TEXT_NODE) {
                 const text = child.textContent;
-                if (text.trim() !== '') {
+                if (text !== '') {
                     const escaped = text.replace(/\\/g, '\\\\').replace(/\n/g, '\\n');
                     lines.push('T ' + escaped);
                 }
