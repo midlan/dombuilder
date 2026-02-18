@@ -2,10 +2,10 @@
  * DomBuilder instruction set and compression utilities.
  *
  * Instruction format (one per line):
- *   E tag        — create element, append to current parent, push onto stack
+ *   E tag        — create element, push onto stack
  *   A name value — set attribute on current element (\n = newline, \\ = backslash in value)
  *   T text       — append text node to current element (\n = newline, \\ = backslash)
- *   ^            — pop stack (current element becomes parent again)
+ *   ^            — pop stack, append completed element to parent
  */
 
 // === Instruction executor ===
@@ -18,7 +18,10 @@ function executeInstructions(text, target) {
         if (line === '') continue;
 
         if (line === '^') {
-            if (stack.length > 1) stack.pop();
+            if (stack.length > 1) {
+                const el = stack.pop();
+                stack[stack.length - 1].appendChild(el);
+            }
             continue;
         }
 
@@ -28,7 +31,6 @@ function executeInstructions(text, target) {
         switch (op) {
             case 'E': {
                 const el = document.createElement(rest);
-                stack[stack.length - 1].appendChild(el);
                 stack.push(el);
                 break;
             }
