@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <title>dom2url (v2)</title>
+    <script src="dom2url.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            const hash = window.location.hash.substring(1);
+            if (!hash) return;
+            try {
+                const instructions = await decodeInstructions(hash);
+                executeInstructions(instructions, document.body);
+            } catch (e) {
+                console.error('dom2url decode error', e);
+            }
+        });
+    </script>
+</html>
