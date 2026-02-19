@@ -1,20 +1,20 @@
-# dombuilder
+# dom2url
 
 Don't wanna setup hosting for every microsite you need? Now you can build a microsite using just a URL. The microsite will live in your bookmarks forever!
 
 ## Example
 
 ```
-https://midlan.github.io/dombuilder/latest/#c1XIMOQKUfBIzcnJVwjPL8pJUeSK4wpRiMkDAA
+https://midlan.github.io/dom2url/latest/#c1XIMOQKUfBIzcnJVwjPL8pJUeSK4wpRiMkDAA
 ```
 
 ## Editor
 
-Open [`editor.html`](https://midlan.github.io/dombuilder/latest/editor.html) to write HTML in a split-panel editor with live preview. Click **Run** to generate a URL, then use the **Copy** button to grab it.
+Open [`editor.html`](https://midlan.github.io/dom2url/latest/editor.html) to write HTML in a split-panel editor with live preview. Click **Run** to generate a URL, then use the **Copy** button to grab it.
 
 ## How It Works
 
-dombuilder encodes an entire HTML page into the URL’s hash fragment—no server, no database, and no hosting required.
+dom2url encodes an entire HTML page into the URL’s hash fragment—no server, no database, and no hosting required.
 
 1. **HTML to instructions** — the editor parses your HTML and converts it into a compact instruction set (`E` create element, `A` set attribute, `T` add text, `^` close element).
 2. **Compress** — the instructions are compressed using deflate-raw via the browser's built-in `CompressionStream` API.

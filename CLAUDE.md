@@ -13,7 +13,7 @@ There is no build step, package manager, or install step. Open `editor.html` or 
 
 ## Architecture
 
-**dombuilder** encodes entire HTML documents into a URL hash fragment using a three-stage pipeline:
+**dom2url** encodes entire HTML documents into a URL hash fragment using a three-stage pipeline:
 
 ```
 HTML → Instructions → Deflate-compress → Base64url-encode → URL hash
@@ -24,7 +24,7 @@ The reversal is:
 URL hash → Base64url-decode → Decompress → Execute instructions → DOM
 ```
 
-### Instruction format (`dombuilder.js`)
+### Instruction format (`dom2url.js`)
 
 HTML is converted into a line-based instruction language:
 - `E tag` — create element, push to stack
@@ -36,7 +36,7 @@ Special characters in attribute values and text are escaped as `\\` and `\n`.
 
 SVG elements are detected by tag name and created with `createElementNS` using the SVG namespace.
 
-### Key functions in `dombuilder.js`
+### Key functions in `dom2url.js`
 
 - `htmlToInstructions(html)` — DOMParser → depth-first tree walk → instruction text
 - `executeInstructions(text, target)` — stack-based DOM builder, runs instructions
@@ -48,7 +48,7 @@ SVG elements are detected by tag name and created with `createElementNS` using t
 
 - **`index.html`** — minimal viewer: reads URL hash, decodes, executes instructions into `document.body`
 - **`editor.html`** — interactive editor with split-panel preview; takes HTML input, generates shareable URL
-- **`tests/roundtrip.mjs`** — Node.js test runner that loads `dombuilder.js` via `Function` constructor (not ESM import), encodes/decodes each file in `tests/examples/`, and asserts byte-for-byte equality
+- **`tests/roundtrip.mjs`** — Node.js test runner that loads `dom2url.js` via `Function` constructor (not ESM import), encodes/decodes each file in `tests/examples/`, and asserts byte-for-byte equality
 
 ### Deployment
 

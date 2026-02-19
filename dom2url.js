@@ -1,5 +1,5 @@
 /*
- * DomBuilder instruction set and compression utilities.
+ * dom2url instruction set and compression utilities.
  *
  * Instruction format (one per line):
  *   E tag        — create element, push onto stack

@@ -5,9 +5,9 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 
-// Load dombuilder.js functions into this scope via Function constructor.
+// Load dom2url.js functions into this scope via Function constructor.
 // Node 18+ provides the required globals (Blob, CompressionStream, etc.).
-const code = readFileSync(join(root, 'dombuilder.js'), 'utf8');
+const code = readFileSync(join(root, 'dom2url.js'), 'utf8');
 const load = new Function(code + '\nreturn { encodeInstructions, decodeInstructions };');
 const { encodeInstructions, decodeInstructions } = load();
 

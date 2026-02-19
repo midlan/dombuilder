@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>dombuilder editor</title>
+    <title>dom2url editor</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: monospace; height: 100vh; display: flex; flex-direction: column; }
@@ -21,7 +21,7 @@
 </head>
 <body>
     <div class="toolbar">
-        <a href="https://github.com/midlan/dombuilder">dombuilder</a>
+        <a href="https://github.com/midlan/dom2url">dom2url</a>
         <button id="run">Run &#9654;</button>
     </div>
     <div class="panels">
@@ -35,7 +35,7 @@
         <button id="copy">Copy</button>
     </div>
 
-    <script src="dombuilder.js"></script>
+    <script src="dom2url.js"></script>
     <script>
         const DEPLOY_TAG = null; // replaced at deploy time
         const sourceEl = document.getElementById('source');

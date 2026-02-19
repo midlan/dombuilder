@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-    <title>dombuilder</title>
-    <script src="dombuilder.js"></script>
+    <title>dom2url</title>
+    <script src="dom2url.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
             const hash = window.location.hash.substring(1);
@@ -10,7 +10,7 @@
                 const instructions = await decodeInstructions(hash);
                 executeInstructions(instructions, document.body);
             } catch (e) {
-                console.error('DomBuilder decode error', e);
+                console.error('dom2url decode error', e);
             }
         });
     </script>

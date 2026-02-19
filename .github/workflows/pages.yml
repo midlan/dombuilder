@@ -38,11 +38,11 @@ jobs:
 
           # Copy the tagged files into a versioned directory
           mkdir -p "_site/$TAG"
-          cp index.html dombuilder.js editor.html "_site/$TAG/"
+          cp index.html dom2url.js editor.html "_site/$TAG/"
 
           # Bake the tag into the page titles
-          sed -i "s|<title>dombuilder</title>|<title>dombuilder ($TAG)</title>|" "_site/$TAG/index.html"
-          sed -i "s|<title>dombuilder editor</title>|<title>dombuilder editor ($TAG)</title>|" "_site/$TAG/editor.html"
+          sed -i "s|<title>dom2url</title>|<title>dom2url ($TAG)</title>|" "_site/$TAG/index.html"
+          sed -i "s|<title>dom2url editor</title>|<title>dom2url editor ($TAG)</title>|" "_site/$TAG/editor.html"
 
           # Bake the tag into generated DOM URLs so /latest/ resolves to /v3/ etc.
           sed -i "s|const DEPLOY_TAG = null;|const DEPLOY_TAG = '${TAG}';|" "_site/$TAG/editor.html"
@@ -57,8 +57,8 @@ jobs:
           # Generate root index listing every deployed version
           cd _site
           {
-            echo '<!DOCTYPE html><html><head><title>dombuilder</title></head><body>'
-            echo '<h1>dombuilder</h1>'
+            echo '<!DOCTYPE html><html><head><title>dom2url</title></head><body>'
+            echo '<h1>dom2url</h1>'
             echo '<h2>Releases</h2><ul>'
             echo "  <li><a href=\"latest/editor.html\">latest</a></li>"
             for d in */; do
